@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Rails::ApplicationController < ActionController::Base # :nodoc:
+  # protect_from_forgery with: :null_session
   self.view_paths = File.expand_path("templates", __dir__)
   layout "application"
 

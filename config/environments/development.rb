@@ -73,4 +73,6 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  # config.hosts = ["fe79de82f878.ngrok.io", "localhost"] #Task10で追加
+  config.hosts = ["b773-103-5-140-180.ngrok-free.app", "localhost"] #自分のURLに修正した。
 end

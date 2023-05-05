@@ -5,7 +5,8 @@ ruby '3.1.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '= 6.1.7.1'
-
+# Task7で追加
+gem 'line-bot-api'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 # gem 'mysql2', '>= 0.4.4', '< 0.6.0'
