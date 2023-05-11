@@ -26,7 +26,7 @@ class LineBotController < ApplicationController
         # binding.pry
         # 送信されたメッセージをデータベースに保存するコードを書こう
         ifmessage(message)
-        binding.pry #インスタンス変数でないとなぜかリターンがない。
+        # binding.pry # インスタンス変数でないとなぜかリターンがない。
         # case message
         #   when "一覧表示"
         #     # 一覧表示はできるが、見えにくい。
@@ -46,15 +46,15 @@ class LineBotController < ApplicationController
         #     # return reply_message
         #   else
         #     Task.create!(title: message)
-        #     reply_message = {
-        #       type: "text", # 入力したメッセージ（上のtext変数）
-        #       text: "ぽーーん！\n\"#{message}\"\nが登録されました！！"
-        #       # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
-        #     }
+            reply_message = {
+              type: "text", # 入力したメッセージ（上のtext変数）
+              text: @linemsg
+              # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
+            }
         # end
 
         # client.reply_message(event["replyToken"], reply_message)
-        client.reply_message(event["replyToken"], @reply_message)
+        client.reply_message(event["replyToken"], reply_message)
         # ここまでTask10で追記
       end
     end
@@ -75,33 +75,41 @@ class LineBotController < ApplicationController
     # binding.pry
     case message
       when "一覧表示"
-        # 一覧表示はできるが、見えにくい。
-        @reply_message = {
-          type: "text", # 入力したメッセージ（上のtext変数）／これがないとエラーになる
-          text: "【今までに登録したタスク】\n#{Task.pluck(:title).join("\n")}"
-        }
+        # 模範回答を元に自分なりに作り直した。
+        list = Task.all.map do |task|
+          # binding.pry
+          "#{task.id}: #{task.title}"
+        end.join("\n")
+        @linemsg = "【今までに登録したタスク】\n#{list}"
+    	  # tasks.map { |task| "#{index}: #{task.body}" }.join("\n")
+      when /削除\d/
+        # binding.pry
+        id = message.gsub(/削除/, "").strip.to_i #"削除"と余計な空白を消して残った文字列を数値化
+        task = Task.find(id) #整数化されたidでTaskを出力する
+        task.destroy! # タスクの削除
+        @linemsg = "タスク #{id}: 「#{task.title}」 を削除しました！"
       when "削除"
+        # binding.pry
         # これだと最初のタスクしか消せない。
         text = Task.first.title #削除されるタスクのタイトル
         Task.first.destroy #タスクの削除
-        @reply_message = {
-          type: "text", # 入力したメッセージ（上のtext変数）
-          text: "bomb!\n\"#{text}\"\nは削除されました！！"
-        }
+        @linemsg = "bomb!\n\"#{text}\"\nは削除されました！！"
       when "全削除"
         Task.destroy_all #タスクの削除
-        @reply_message = {
-          type: "text", # 入力したメッセージ（上のtext変数）
-          text: "bomb!\n全てのタスクは削除されました！"
-        }
+        @linemsg = "bomb!\n全てのタスクは削除されました！"
       else
         Task.create!(title: message)
-        @reply_message = {
-          type: "text", # 入力したメッセージ（上のtext変数）
-          text: "ぽーーん！\n\"#{message}\"\nが登録されました！！"
-          # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
-        }
+        @linemsg = "ぽーーん！\n\"#{message}\"\nが登録されました！！"
+        # @reply_message = {
+        #   type: "text", # 入力したメッセージ（上のtext変数）
+        #   text: "ぽーーん！\n\"#{message}\"\nが登録されました！！"
+        #   # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
+        # }
     end
+    # @reply_message = {
+    #   type: "text", # 入力したメッセージ（上のtext変数）／これがないとエラーになる
+    #   text: linemsg
+    # }
     # binding.pry
     # return reply_message # returnが機能してない。インスタンス変数にしたらうまくいった。
     # return testmessage = reply_message
