@@ -22,38 +22,17 @@ class LineBotController < ApplicationController
         # LINE からテキストが送信されたときの処理を記述する
         # Task10で追記した
         message = event["message"]["text"]
+        userid = event["source"]["userId"] #Sp2で追加。
         message = message.chomp #不要な改行をなくすメソッド（複数個に弱い）
         # binding.pry
-        # 送信されたメッセージをデータベースに保存するコードを書こう
-        ifmessage(message)
-        # binding.pry # インスタンス変数でないとなぜかリターンがない。
-        # case message
-        #   when "一覧表示"
-        #     # 一覧表示はできるが、見えにくい。
-        #     reply_message = {
-        #       type: "text", # 入力したメッセージ（上のtext変数）／これがないとエラーになる
-        #       text: "【今までに登録したタスク】\n#{Task.pluck(:title).join("\n")}"
-        #     }
-        #     # return reply_message
-        #   when "削除"
-        #     # これだと最初のタスクしか消せない。
-        #     text = Task.first.title #削除されるタスクのタイトル
-        #     Task.first.destroy #タスクの削除
-        #     reply_message = {
-        #       type: "text", # 入力したメッセージ（上のtext変数）
-        #       text: "bomb!\n\"#{text}\"\nは削除されました！！"
-        #     }
-        #     # return reply_message
-        #   else
-        #     Task.create!(title: message)
-            reply_message = {
-              type: "text", # 入力したメッセージ（上のtext変数）
-              text: @linemsg
-              # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
-            }
-        # end
 
-        # client.reply_message(event["replyToken"], reply_message)
+        # 送信されたメッセージをデータベースに保存するコードを書こう
+        ifmessage(message, userid)
+        # binding.pry # インスタンス変数でないとなぜかリターンがない。
+        reply_message = {
+          type: "text", # 入力したメッセージ（上のtext変数）
+          text: @linemsg
+        }
         client.reply_message(event["replyToken"], reply_message)
         # ここまでTask10で追記
       end
@@ -71,15 +50,24 @@ class LineBotController < ApplicationController
     end
   end
 
-  def ifmessage(message)
+  def ifmessage(message, userid)
     # binding.pry
     case message
       when "一覧表示"
         # 模範回答を元に自分なりに作り直した。
-        list = Task.all.map do |task|
-          # binding.pry
-          "#{task.id}: #{task.title}"
+        # binding.pry
+        list = Task.all.where(user: userid).map.with_index do |task, i| #Sp2で修正した。
+          "#{i+1}: #{task.title}"
+          # "#{task.id}: #{task.title}"
         end.join("\n")
+        # 色々やったけど、each文の使い方として間違ってる。
+        # list2 = Task.all.where(user: userid).pluck(:title) # これで特定のuserの配列を出力
+        # list2.each_with_index do |task, i|
+        #   binding.pry
+        #   test = "#{i+1}：#{task}\n"
+        #   test2 = test+test2
+        # #   puts "#{i}：#{task}"
+        # end
         @linemsg = "【今までに登録したタスク】\n#{list}"
     	  # tasks.map { |task| "#{index}: #{task.body}" }.join("\n")
       when /削除\d/
@@ -91,28 +79,15 @@ class LineBotController < ApplicationController
       when "削除"
         # binding.pry
         # これだと最初のタスクしか消せない。
-        text = Task.first.title #削除されるタスクのタイトル
+        text = Task.where(user: userid).first.title #削除されるタスクのタイトル
         Task.first.destroy #タスクの削除
         @linemsg = "bomb!\n\"#{text}\"\nは削除されました！！"
       when "全削除"
         Task.destroy_all #タスクの削除
         @linemsg = "bomb!\n全てのタスクは削除されました！"
       else
-        Task.create!(title: message)
+        Task.create!(title: message,user: userid)
         @linemsg = "ぽーーん！\n\"#{message}\"\nが登録されました！！"
-        # @reply_message = {
-        #   type: "text", # 入力したメッセージ（上のtext変数）
-        #   text: "ぽーーん！\n\"#{message}\"\nが登録されました！！"
-        #   # \n今まで登録されたタスクは・・・\n#{Task.pluck(:title)}\nです。"
-        # }
     end
-    # @reply_message = {
-    #   type: "text", # 入力したメッセージ（上のtext変数）／これがないとエラーになる
-    #   text: linemsg
-    # }
-    # binding.pry
-    # return reply_message # returnが機能してない。インスタンス変数にしたらうまくいった。
-    # return testmessage = reply_message
-    # client.reply_message(event["replyToken"], reply_message) # 使ってる変数が多い。
   end
 end
