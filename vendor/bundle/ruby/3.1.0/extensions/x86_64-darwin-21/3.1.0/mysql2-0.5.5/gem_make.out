@@ -29,16 +29,24 @@ checking for MYSQL_OPTION_MULTI_STATEMENTS_ON in mysql.h... yes
 checking for MYSQL_OPTION_MULTI_STATEMENTS_OFF in mysql.h... yes
 checking for my_bool in mysql.h... no
 -----
-Setting rpath to /usr/local/Cellar/mysql/8.0.30_1/lib
+Setting rpath to /usr/local/Cellar/mysql/8.1.0/lib
 -----
 creating Makefile
 
 current directory: /Users/bun/git/line_todo_list/vendor/bundle/ruby/3.1.0/gems/mysql2-0.5.5/ext/mysql2
-make DESTDIR\= sitearchdir\=./.gem.20230416-21685-ap831g sitelibdir\=./.gem.20230416-21685-ap831g clean
+make DESTDIR\= sitearchdir\=./.gem.20231027-99283-2d958z sitelibdir\=./.gem.20231027-99283-2d958z clean
 
 current directory: /Users/bun/git/line_todo_list/vendor/bundle/ruby/3.1.0/gems/mysql2-0.5.5/ext/mysql2
-make DESTDIR\= sitearchdir\=./.gem.20230416-21685-ap831g sitelibdir\=./.gem.20230416-21685-ap831g
+make DESTDIR\= sitearchdir\=./.gem.20231027-99283-2d958z sitelibdir\=./.gem.20231027-99283-2d958z
 compiling client.c
+In file included from client.c:15:
+./mysql_enc_name_to_ruby.h:43:1: warning: a function declaration without a prototype is deprecated in all versions of C and is not supported in C2x [-Wdeprecated-non-prototype]
+mysql2_mysql_enc_name_to_rb_hash (str, len)
+^
+./mysql_enc_name_to_ruby.h:86:1: warning: a function declaration without a prototype is deprecated in all versions of C and is not supported in C2x [-Wdeprecated-non-prototype]
+mysql2_mysql_enc_name_to_rb (str, len)
+^
+2 warnings generated.
 compiling infile.c
 compiling mysql2_ext.c
 compiling result.c
@@ -48,8 +56,7 @@ result.c:304:35: warning: implicit conversion loses integer precision: 'unsigned
 1 warning generated.
 compiling statement.c
 linking shared-object mysql2/mysql2.bundle
-ld: warning: -undefined dynamic_lookup may not work with chained fixups
 
 current directory: /Users/bun/git/line_todo_list/vendor/bundle/ruby/3.1.0/gems/mysql2-0.5.5/ext/mysql2
-make DESTDIR\= sitearchdir\=./.gem.20230416-21685-ap831g sitelibdir\=./.gem.20230416-21685-ap831g install
-/usr/bin/install -c -m 0755 mysql2.bundle ./.gem.20230416-21685-ap831g/mysql2
+make DESTDIR\= sitearchdir\=./.gem.20231027-99283-2d958z sitelibdir\=./.gem.20231027-99283-2d958z install
+/usr/bin/install -c -m 0755 mysql2.bundle ./.gem.20231027-99283-2d958z/mysql2
