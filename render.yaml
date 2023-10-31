@@ -1,0 +1,28 @@
+# TaskEXでファイルと下記コードをコピペ
+services:
+  - type: web
+    name: line-todo-list
+    env: ruby
+    region: singapore
+    plan: free
+    branch: main
+    numInstances: 1
+    healthCheckPath: /
+    buildCommand: ./bin/render-build.sh
+    startCommand: bundle exec puma -C config/puma.rb
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mysql
+          property: connectionString
+    autoDeploy: false
+
+databases:
+  - name: mysql
+    region: singapore
+    plan: free
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere # 学習用
