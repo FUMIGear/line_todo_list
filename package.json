@@ -14,7 +14,7 @@
   "devDependencies": {
     "webpack-dev-server": "^3"
   },
-  "scripts": {
-    "develop": "NODE_OPTIONS='--openssl-legacy-provider' gatsby develop"
+  "engines": {
+    "node": ">=14.20.0 <15.0.0"
   }
 }
