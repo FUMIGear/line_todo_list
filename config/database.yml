@@ -10,8 +10,6 @@
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
-  encoding: utf8mb4
-  # encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # timeout: 5000 #追加
   # ローカルで使う場合かな？
@@ -23,6 +21,8 @@ default: &default
 development:
   <<: *default
   adapter: mysql2 #開発環境ではmysql
+  encoding: utf8mb4
+  # encoding: utf8
   database: line_todo_list_development
 
 # Warning: The database defined as "test" will be erased and
@@ -31,6 +31,8 @@ development:
 test:
   <<: *default
   adapter: mysql2 #テスト環境ではmysql
+  encoding: utf8mb4
+  # encoding: utf8
   database: line_todo_list_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -56,6 +58,7 @@ test:
 production:
   <<: *default
   adapter: postgresql #開発環境ではmysql
+  encoding: unicode #postgreSQLはこれ？
   database: line_todo_list_pg
   username: line_todo_list
   url: <%= ENV['DATABASE_URL'] %>
