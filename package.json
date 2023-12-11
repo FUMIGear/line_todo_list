@@ -13,7 +13,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3"
-  }
+  },
   "scripts": {
     "develop": "NODE_OPTIONS='--openssl-legacy-provider' gatsby develop"
   }
