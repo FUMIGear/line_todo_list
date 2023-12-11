@@ -66,23 +66,23 @@ class LineBotController < ApplicationController
         # binding.pry
         task = delete[id] #整数化されたidでTaskを出力する
         task.destroy! #タスクの削除
-        @linemsg = "タスク #{id}: 「#{task.title}」 を削除しました！"
+        @linemsg = "タスク #{id}: 「#{task.title}」 を削除しました。"
       when "削除" #自ユーザの最初のタスクを消す
         # binding.pry
         deltitle = Task.where(user: userid).first.title #削除されるタスクのタイトル
         Task.where(user: userid).first.destroy #タスクの削除
-        @linemsg = "bomb!\n\"#{deltitle}\"\nは削除されました！！"
+        @linemsg = "\"#{deltitle}\"\nは削除されました。"
       when "全削除" #自ユーザのタスクを全て消す
         Task.where(user: userid).destroy_all #タスクの削除
-        @linemsg = "BooooooomB！\n全てのタスクは削除されました！"
+        @linemsg = "※全てのタスクを削除いたしました！"
       when "全表示" #ユーザ関係なく全てのタスク表示
         list = Task.all.map do |task| #Sp2で修正した。
           "#{task.id}: #{task.title}"
         end.join("\n")
-        @linemsg = "【今までに登録したタスク】\n#{list}"
+        @linemsg = "【全ユーザの登録したタスク】\n#{list}"
       else # その他＝タスクの登録
         Task.create!(title: message,user: userid)
-        @linemsg = "ぽーーん！\n\"#{message}\"\nが登録されました！！"
+        @linemsg = "新しく\"#{message}\"\nが登録されました！！"
     end
   end
 end
