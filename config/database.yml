@@ -15,10 +15,16 @@ default: &default
   # encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # timeout: 5000 #追加
-  username: root
-  password: root
-  # host: localhost
-  host: 127.0.0.1
+  # ローカルで使う場合かな？
+  # username: root
+  # password: root
+  # # host: localhost
+  # host: 127.0.0.1
+  # Render.comでmysqlを使う場合
+  username: <%= ENV['MYSQL_USER'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  host: <%= ENV['MYSQL_HOST'] %>
+  port: <%= ENV['MYSQL_PORT'] %>
 
 development:
   <<: *default
@@ -53,6 +59,11 @@ test:
 #
 production:
   <<: *default
-  database: line_todo_list_production
+  # ローカル環境
+  # database: line_todo_list_production
+  # username: line_todo_list
+  # password: <%= ENV['LINE_TODO_LIST_DATABASE_PASSWORD'] %>
+  #
+  database: line_todo_mysql
   username: line_todo_list
   password: <%= ENV['LINE_TODO_LIST_DATABASE_PASSWORD'] %>
