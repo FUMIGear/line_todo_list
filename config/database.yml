@@ -10,24 +10,19 @@
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
-  adapter: mysql2
   encoding: utf8mb4
   # encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # timeout: 5000 #追加
   # ローカルで使う場合かな？
-  # username: root
-  # password: root
-  # # host: localhost
-  # host: 127.0.0.1
-  # Render.comでmysqlを使う場合
-  username: <%= ENV['MYSQL_USER'] %>
-  password: <%= ENV['MYSQL_PASSWORD'] %>
-  host: <%= ENV['MYSQL_HOST'] %>
-  port: <%= ENV['MYSQL_PORT'] %>
+  username: root
+  password: root
+  # host: localhost
+  host: 127.0.0.1
 
 development:
   <<: *default
+  adapter: mysql2 #開発環境ではmysql
   database: line_todo_list_development
 
 # Warning: The database defined as "test" will be erased and
@@ -35,6 +30,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  adapter: mysql2 #テスト環境ではmysql
   database: line_todo_list_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -59,11 +55,9 @@ test:
 #
 production:
   <<: *default
-  # ローカル環境
-  # database: line_todo_list_production
-  # username: line_todo_list
-  # password: <%= ENV['LINE_TODO_LIST_DATABASE_PASSWORD'] %>
-  #
-  database: line_todo_mysql
+  adapter: postgresql #開発環境ではmysql
+  database: line_todo_list_pg
   username: line_todo_list
-  password: <%= ENV['LINE_TODO_LIST_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  # password: <%= ENV['LINE_TODO_LIST_DATABASE_PASSWORD'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
