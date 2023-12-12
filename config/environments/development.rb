@@ -76,6 +76,7 @@ Rails.application.configure do
   # config.hosts = ["fe79de82f878.ngrok.io", "localhost"] #Task10で追加
   # config.hosts = ["e7d5-211-16-48-241.ngrok-free.app", "localhost"] #自分のURLに修正した。
   # config.hosts << "e7d5-211-16-48-241.ngrok-free.app" #書き方が変わってる。
-  config.hosts << ["e7d5-211-16-48-241.ngrok-free.app", "localhost"]  #こっちなら、ホスト名を指定できる。
+  # config.hosts << ["e7d5-211-16-48-241.ngrok-free.app", "localhost"]  #こっちなら、ホスト名を指定できる。
+  config.hosts << "line-todo-list.onrender.com"  #Render.com用
   # config.hosts = ["127.0.0.1", "localhost"] #ローカルは無理！
 end
