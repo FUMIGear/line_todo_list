@@ -24,7 +24,8 @@ databases:
   # - name: mysql
   - name: postgresql-line-todo-list
     region: singapore
-    plan: free
+    # plan: free
+    plan: starter
     ipAllowList:
       - source: 0.0.0.0/0
         description: everywhere # 学習用
