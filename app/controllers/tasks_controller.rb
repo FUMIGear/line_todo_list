@@ -1,3 +1,5 @@
+# Webサイトのコントローラーはこっちのcontrollerで動作
+# LINEから送られてきた処理はline_bot_controllerで処理していると予想
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
 
@@ -26,7 +28,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
+        format.html { redirect_to task_url(@task), notice: "タスクの作成に成功しました/Task was successfully created." }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new, status: :unprocessable_entity }

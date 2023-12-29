@@ -5,8 +5,9 @@ class LineBotController < ApplicationController
   def callback
     # LINEで送られてきたメッセージのデータを取得
     # puts "コルバ" # PostmanでCallbackメソッドが動いているか確認するために書いた。
-    # binding.pry # パラメータ確認用
+    # binding.pry # 動作確認用（DevのWebhook検証するとタイムアウトエラーになる）
     body = request.body.read #中身空っぽ #これが問題だな→Postmanだと空になるっぽい
+    # binding.pry # パラメータ確認用
 
     # LINE以外からリクエストが来た場合 Error を返す
     signature = request.env["HTTP_X_LINE_SIGNATURE"]
