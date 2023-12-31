@@ -4,7 +4,8 @@ services:
     name: line-todo-list
     env: ruby
     region: singapore
-    plan: free
+    # plan: free
+    plan: starter
     branch: main
     numInstances: 1
     healthCheckPath: /
